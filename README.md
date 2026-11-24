@@ -1,38 +1,58 @@
-# Sprint 1 – Transformación CSV a JSON
+# Proyecto 03 – AI Jobs Market Dashboard (2025–2026)
 
-## Dataset
-`data/ai_jobs_market_2025_2026.csv` es el CSV original seleccionado para el Sprint 1.
+Dashboard interactivo desarrollado con React, TypeScript, Vite, Material UI y Recharts para explorar el mercado laboral de Inteligencia Artificial (`AI Jobs Market 2025–2026: Salaries, Skills & Demand`).
 
-## Estructura
-- `data/ai_jobs_market_2025_2026.csv`: dataset original.
-- `data/ai_jobs_market_2025_2026.json`: registros convertidos a JSON.
-- `scripts/csv_to_json.py`: script reproducible de transformación y validación.
+## Estructura del proyecto
+- `data/ai_jobs_market_2025_2026.csv`: dataset original del Sprint 1.
+- `data/ai_jobs_market_2025_2026.json`: registros convertidos a JSON (1,500 ofertas y 25 columnas).
+- `public/data/ai_jobs_market_2025_2026.json`: copia servida estáticamente por Vite para carga vía `fetch` en `useEffect`.
+- `scripts/csv_to_json.py`: script reproducible de transformación y validación CSV → JSON.
+- `src/types/job.ts`: tipos TypeScript para el modelo de ofertas y filtros.
+- `src/utils/metrics.ts` y `src/utils/csvExport.ts`: cálculo de KPIs, agregaciones para gráficos, filtrado y exportación a CSV.
+- `src/components/`:
+  - `AppHeader.tsx`: identidad del dashboard, alcance global y total de registros cargados.
+  - `FilterPanel.tsx`: selectores de experiencia, país, modalidad, búsqueda por puesto o habilidad y botón **Restablecer**.
+  - `KpiCard.tsx`: tarjeta reutilizable para los cuatro indicadores principales.
+  - `ChartCard.tsx`: contenedor reutilizable con título, subtítulo y acciones opcionales.
+  - `SalaryByExperienceChart.tsx`: salario promedio anual por nivel de experiencia.
+  - `MonthlyDemandChart.tsx`: comparación mensual de publicaciones entre 2025 y 2026.
+  - `CategoryChart.tsx`: gráfico circular y leyenda de las 6 categorías con más registros.
+  - `JobsTable.tsx`: tabla paginada de ofertas con puesto, experiencia, ubicación, modalidad y salario anual.
+- `src/App.tsx`: gestión de estado con `useState`, carga inicial con `useEffect`, memoización con `useMemo` y coordinación por `props`.
 
-## Requisitos
-Python 3 instalado. El script utiliza únicamente la biblioteca estándar de Python; no requiere instalar paquetes externos.
+## Sprint 1 – Transformación CSV a JSON
 
-## Ejecutar
-Desde la carpeta raíz de este entregable:
+Requiere Python 3 (solo biblioteca estándar):
 
 ```bash
 python3 scripts/csv_to_json.py
 ```
 
-El script lee el CSV, elimina espacios al inicio/final de los valores de texto, convierte los campos numéricos a `int` o `float`, conserva los campos categóricos como cadenas y convierte campos vacíos en `null`. Después valida las columnas, identificadores, meses, indicadores binarios, cantidad de registros y vuelve a abrir el JSON para comprobar que sea válido.
+Criterios de tratamiento preservados en el dashboard:
+- `posting_year` y `posting_month` se conservan como enteros.
+- `is_senior`, `is_remote_friendly` e `is_llm_role` se conservan como indicadores binarios `0`/`1`.
+- Los 288 registros cuyo `annual_salary_usd` está fuera de `salary_min_usd`–`salary_max_usd` se mantienen sin alteración ni eliminación.
 
-## Criterios de tratamiento
-- `posting_year` y `posting_month` se conservan como enteros. El dataset no proporciona día ni fecha completa, por lo que no se inventa una fecha.
-- `is_senior`, `is_remote_friendly` e `is_llm_role` se conservan como enteros `0`/`1`, tal como aparecen en el CSV.
-- Los registros cuyo `annual_salary_usd` está fuera de `salary_min_usd` y `salary_max_usd` se conservan sin modificación. El script informa cuántos casos existen para no alterar silenciosamente el dataset.
-- Los valores vacíos se representarían como `null`; en el archivo fuente inspeccionado no se encontraron valores vacíos.
+## Sprint 2 – Componentes e interfaces React
 
-## Resultado de la inspección del archivo fuente
-- 1,500 registros y 25 columnas.
-- 0 valores faltantes detectados.
-- 0 identificadores duplicados.
-- 0 espacios al inicio o al final de los campos de texto.
-- 0 meses fuera del rango 1–12.
-- 288 registros con salario anual fuera del rango min/max; se conservan y se reportan, sin corregirlos automáticamente.
+### Requisitos
+- Node.js 18+ y npm.
 
-## Ejemplo de estructura JSON
-El JSON es un arreglo de objetos. Cada objeto representa un registro del CSV y conserva los nombres de sus 25 columnas.
+### Ejecución en desarrollo
+
+```bash
+npm install
+npm run dev
+```
+
+### Compilación de producción
+
+```bash
+npm run build
+```
+
+### Valores de referencia (1,500 registros sin filtros)
+- Mediana salarial anual: **USD 180.000**
+- Prima salarial promedio por IA: **10,9%**
+- Índice de demanda promedio: **87,5/100**
+- Roles especializados LLM (`is_llm_role = 1`): **21,8%**
