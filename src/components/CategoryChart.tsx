@@ -33,10 +33,10 @@ export function CategoryChart({ rows }: CategoryChartProps) {
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
       alignItems="center"
-      spacing={2}
-      sx={{ minHeight: 300 }}
+      spacing={{ xs: 2.5, sm: 2 }}
+      sx={{ minHeight: { xs: 'auto', sm: 300 } }}
     >
-      <Box sx={{ width: { xs: '100%', sm: '55%' }, height: 260 }}>
+      <Box sx={{ width: { xs: '100%', sm: '55%' }, height: { xs: 230, sm: 260 } }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -45,8 +45,8 @@ export function CategoryChart({ rows }: CategoryChartProps) {
               nameKey="name"
               cx="50%"
               cy="50%"
-              innerRadius={52}
-              outerRadius={92}
+              innerRadius={50}
+              outerRadius={88}
               paddingAngle={2}
             >
               {data.map((entry, idx) => (
@@ -55,7 +55,7 @@ export function CategoryChart({ rows }: CategoryChartProps) {
             </Pie>
             <Tooltip
               formatter={(value: number, _name, item) => [
-                `${value} ofertas (${(item.payload as { sharePct: number }).sharePct}%)`,
+                `${value} ofertas (${(item.payload as { sharePct: number }).sharePct.toFixed(1).replace('.', ',')}%)`,
                 'Categoría',
               ]}
               contentStyle={{
@@ -68,14 +68,14 @@ export function CategoryChart({ rows }: CategoryChartProps) {
         </ResponsiveContainer>
       </Box>
 
-      <Stack spacing={1.1} sx={{ width: { xs: '100%', sm: '45%' } }}>
+      <Stack spacing={1.25} sx={{ width: { xs: '100%', sm: '45%' }, px: { xs: 0.5, sm: 0 } }}>
         {data.map((entry, idx) => (
           <Stack
             key={entry.name}
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            spacing={1}
+            spacing={1.5}
           >
             <Stack direction="row" alignItems="center" spacing={1} sx={{ minWidth: 0 }}>
               <Box
@@ -92,7 +92,7 @@ export function CategoryChart({ rows }: CategoryChartProps) {
               </Typography>
             </Stack>
             <Typography variant="caption" sx={{ color: '#64748b', fontWeight: 700, flexShrink: 0 }}>
-              {entry.value} ({entry.sharePct}%)
+              {entry.value} ({entry.sharePct.toFixed(1).replace('.', ',')}%)
             </Typography>
           </Stack>
         ))}

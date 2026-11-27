@@ -34,7 +34,7 @@ export function App() {
   useEffect(() => {
     let isMounted = true;
 
-    async function loadDatasetFromFirebase() {
+    async function loadDatasetFromFirebase() { // Alan Aguilar y Geovanny Lacouture
       try {
         setLoading(true);
         setError(null);
@@ -177,6 +177,7 @@ export function App() {
                   startIcon={<DownloadIcon />}
                   onClick={handleExportCsv}
                   disabled={filteredJobs.length === 0}
+                  sx={{ width: { xs: '100%', sm: 'auto' }, py: { xs: 1, sm: 0.65 } }}
                 >
                   Exportar CSV
                 </Button>
@@ -185,8 +186,14 @@ export function App() {
               <JobsTable rows={filteredJobs} />
             </ChartCard>
 
-            <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', pt: 0.5 }}>
-              Fuente: Firebase Realtime Database (ai_jobs_market_2025_2026) · Se conservan íntegros los 1.500 registros del Sprint 1 sin alteración de valores salariales fuera de rango.
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ textAlign: 'center', pt: 0.5, px: 1, lineHeight: 1.5 }}
+            >
+              Fuente: Firebase Realtime Database (ai_jobs_market_2025_2026) · Se conservan íntegros los{' '}
+              {jobs.length.toLocaleString('es-EC')} registros del Sprint 1 sin alteración de valores
+              salariales fuera de rango.
             </Typography>
           </>
         )}

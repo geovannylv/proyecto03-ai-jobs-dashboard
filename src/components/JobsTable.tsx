@@ -54,6 +54,13 @@ export function JobsTable({ rows }: JobsTableProps) {
 
   return (
     <Box>
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        sx={{ display: { xs: 'block', md: 'none' }, mb: 1 }}
+      >
+        Desliza horizontalmente para ver todas las columnas →
+      </Typography>
       <TableContainer className="table-scroll-container">
         <Table size="small" className="table-min-width" aria-label="Tabla de ofertas laborales">
           <TableHead>
@@ -118,7 +125,7 @@ export function JobsTable({ rows }: JobsTableProps) {
                       {formatCurrencyUsd(job.annual_salary_usd)}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                      +{job.ai_salary_premium_pct.toFixed(1)}% prima IA
+                      +{job.ai_salary_premium_pct.toFixed(1).replace('.', ',')}% prima IA
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -139,8 +146,16 @@ export function JobsTable({ rows }: JobsTableProps) {
           setPage(0);
         }}
         rowsPerPageOptions={[10, 25, 50]}
-        labelRowsPerPage="Filas por página:"
+        labelRowsPerPage="Filas:"
         labelDisplayedRows={({ from, to, count }) => `${from}–${to} de ${count}`}
+        sx={{
+          '.MuiTablePagination-toolbar': {
+            flexWrap: 'wrap',
+            justifyContent: { xs: 'center', sm: 'flex-end' },
+            gap: 0.5,
+            px: { xs: 0, sm: 2 },
+          },
+        }}
       />
     </Box>
   );

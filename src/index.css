@@ -12,6 +12,7 @@ body {
   color: #0f172a;
   font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .dashboard-shell {
@@ -24,22 +25,27 @@ body {
   width: 100%;
   max-width: 1380px;
   margin: 0 auto;
-  padding: 20px 24px 40px;
+  padding: 24px 24px 44px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
+}
+
+.kpi-grid > *,
+.charts-grid > * {
+  min-width: 0;
 }
 
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
 .chart-card-wide {
@@ -49,13 +55,14 @@ body {
 .filters-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
 }
 
 .table-scroll-container {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .table-min-width {
@@ -63,12 +70,19 @@ body {
 }
 
 @media (max-width: 1024px) {
+  .dashboard-main {
+    padding: 20px 20px 36px;
+    gap: 20px;
+  }
+
   .kpi-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .charts-grid {
     grid-template-columns: 1fr;
+    gap: 18px;
   }
 
   .chart-card-wide {
@@ -77,6 +91,7 @@ body {
 
   .filters-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .filters-actions {
@@ -87,21 +102,33 @@ body {
 
 @media (max-width: 600px) {
   .dashboard-main {
-    padding: 14px 14px 28px;
-    gap: 16px;
+    padding: 18px 16px 36px;
+    gap: 20px;
   }
 
   .kpi-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 12px;
+  }
+
+  .charts-grid {
+    gap: 18px;
   }
 
   .filters-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .filters-search {
-    grid-column: span 2;
+  .filters-search,
+  .filters-actions {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 440px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }

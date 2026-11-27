@@ -29,9 +29,9 @@ export function SalaryByExperienceChart({ rows }: SalaryByExperienceChartProps) 
   }
 
   return (
-    <Box sx={{ width: '100%', height: 300 }}>
+    <Box sx={{ width: '100%', height: { xs: 260, sm: 300 } }}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 10, right: 16, left: 4, bottom: 8 }}>
+        <BarChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 8 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
           <XAxis
             dataKey="shortLabel"
@@ -40,6 +40,7 @@ export function SalaryByExperienceChart({ rows }: SalaryByExperienceChartProps) 
             tickLine={false}
           />
           <YAxis
+            width={48}
             tick={{ fill: '#475569', fontSize: 12 }}
             axisLine={false}
             tickLine={false}

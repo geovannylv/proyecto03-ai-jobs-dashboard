@@ -9,6 +9,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -33,28 +34,26 @@ export function FilterPanel({ filters, countries, onChange, onReset }: FilterPan
     <Paper
       elevation={0}
       sx={{
-        p: { xs: 2, md: 2.25 },
+        p: { xs: 2.25, md: 2.5 },
         border: '1px solid #e2e8f0',
         borderRadius: 3,
         bgcolor: '#ffffff',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          mb: 1.5,
-          gap: 1,
-        }}
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        alignItems={{ xs: 'flex-start', sm: 'center' }}
+        justifyContent="space-between"
+        spacing={0.5}
+        sx={{ mb: 2 }}
       >
         <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#334155' }}>
           Filtros globales
         </Typography>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.4 }}>
           Ajusta los criterios para recalcular KPIs, gráficos y ofertas
         </Typography>
-      </Box>
+      </Stack>
 
       <Box className="filters-grid">
         <FormControl size="small" fullWidth>
@@ -135,7 +134,7 @@ export function FilterPanel({ filters, countries, onChange, onReset }: FilterPan
             startIcon={<RestartAltIcon />}
             onClick={onReset}
             disabled={!hasActiveFilters}
-            sx={{ whiteSpace: 'nowrap', height: 40 }}
+            sx={{ whiteSpace: 'nowrap', height: 40, width: { xs: '100%', sm: 'auto' } }}
           >
             Restablecer
           </Button>

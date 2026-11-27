@@ -30,17 +30,20 @@ export function MonthlyDemandChart({ rows }: MonthlyDemandChartProps) {
   }
 
   return (
-    <Box sx={{ width: '100%', height: 300 }}>
+    <Box sx={{ width: '100%', height: { xs: 270, sm: 300 } }}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 8 }}>
+        <LineChart data={data} margin={{ top: 10, right: 14, left: 0, bottom: 8 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
           <XAxis
             dataKey="monthLabel"
+            interval="preserveStartEnd"
+            minTickGap={12}
             tick={{ fill: '#475569', fontSize: 12 }}
             axisLine={{ stroke: '#cbd5e1' }}
             tickLine={false}
           />
           <YAxis
+            width={36}
             allowDecimals={false}
             tick={{ fill: '#475569', fontSize: 12 }}
             axisLine={false}

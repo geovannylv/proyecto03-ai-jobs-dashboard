@@ -15,7 +15,7 @@ export function AppHeader({ totalJobs }: AppHeaderProps) {
         bgcolor: '#0f172a',
         color: '#f8fafc',
         borderBottom: '1px solid rgba(148, 163, 184, 0.2)',
-        py: { xs: 2, md: 2.5 },
+        py: { xs: 2.25, md: 2.75 },
         px: { xs: 2, md: 3 },
       }}
     >
@@ -24,7 +24,7 @@ export function AppHeader({ totalJobs }: AppHeaderProps) {
           direction={{ xs: 'column', md: 'row' }}
           justifyContent="space-between"
           alignItems={{ xs: 'flex-start', md: 'center' }}
-          spacing={1.5}
+          spacing={{ xs: 2, md: 2 }}
         >
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Box
@@ -78,7 +78,11 @@ export function AppHeader({ totalJobs }: AppHeaderProps) {
             />
             <Chip
               icon={<StorageIcon sx={{ color: '#4ade80 !important' }} />}
-              label={`${totalJobs.toLocaleString('es-EC')} registros cargados`}
+              label={
+                totalJobs > 0
+                  ? `${totalJobs.toLocaleString('es-EC')} registros cargados`
+                  : 'Sincronizando registros...'
+              }
               size="small"
               sx={{
                 bgcolor: 'rgba(21, 128, 61, 0.22)',

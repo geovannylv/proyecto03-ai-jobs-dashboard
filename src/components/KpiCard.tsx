@@ -40,7 +40,7 @@ export function KpiCard({ label, value, helper, icon, tone }: KpiCardProps) {
     <Paper
       elevation={0}
       sx={{
-        p: { xs: 1.75, md: 2.25 },
+        p: { xs: 2, md: 2.5 },
         border: '1px solid #e2e8f0',
         borderTop: `3px solid ${palette.accent}`,
         borderRadius: 3,
@@ -48,7 +48,7 @@ export function KpiCard({ label, value, helper, icon, tone }: KpiCardProps) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        gap: 1,
+        gap: 1.25,
       }}
     >
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
