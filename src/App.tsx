@@ -21,6 +21,7 @@ import { KpiCard } from './components/KpiCard';
 import { MonthlyDemandChart } from './components/MonthlyDemandChart';
 import { SalaryByExperienceChart } from './components/SalaryByExperienceChart';
 import { INITIAL_FILTERS, type JobFilters, type JobRecord } from './types/job';
+import { fetchJobsFromFirebase } from './services/firebase';
 import { exportJobsToCsv } from './utils/csvExport';
 import { computeDashboardKpis, filterJobs, formatCurrencyUsd } from './utils/metrics';
 
@@ -31,36 +32,33 @@ export function App() {
   const [filters, setFilters] = useState<JobFilters>(INITIAL_FILTERS);
 
   useEffect(() => {
-    const controller = new AbortController();
+    let isMounted = true;
 
-    async function loadDataset() {
+    async function loadDatasetFromFirebase() {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch('/data/ai_jobs_market_2025_2026.json', {
-          signal: controller.signal,
-        });
-        if (!response.ok) {
-          throw new Error(`Error HTTP ${response.status} al cargar el dataset JSON.`);
-        }
-        const payload = (await response.json()) as JobRecord[];
-        setJobs(payload);
+        const records = await fetchJobsFromFirebase('/');
+        if (!isMounted) return;
+        setJobs(records);
       } catch (err) {
-        if ((err as { name?: string }).name === 'AbortError') return;
+        if (!isMounted) return;
         setError(
           err instanceof Error
             ? err.message
-            : 'No se pudo cargar el archivo ai_jobs_market_2025_2026.json.'
+            : 'No se pudieron recuperar los registros desde Firebase Realtime Database.'
         );
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
-    void loadDataset();
+    void loadDatasetFromFirebase();
 
     return () => {
-      controller.abort();
+      isMounted = false;
     };
   }, []);
 
@@ -97,7 +95,7 @@ export function App() {
           <Stack alignItems="center" justifyContent="center" spacing={2} sx={{ py: 10 }}>
             <CircularProgress />
             <Typography variant="body2" color="text.secondary">
-              Cargando dataset AI Jobs Market 2025–2026...
+              Conectando con Firebase Realtime Database y cargando registros...
             </Typography>
           </Stack>
         ) : error ? (
@@ -188,7 +186,7 @@ export function App() {
             </ChartCard>
 
             <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', pt: 0.5 }}>
-              Fuente: data/ai_jobs_market_2025_2026.json · Se conservan íntegros los 1.500 registros del Sprint 1 sin alteración de valores salariales fuera de rango.
+              Fuente: Firebase Realtime Database (ai_jobs_market_2025_2026) · Se conservan íntegros los 1.500 registros del Sprint 1 sin alteración de valores salariales fuera de rango.
             </Typography>
           </>
         )}

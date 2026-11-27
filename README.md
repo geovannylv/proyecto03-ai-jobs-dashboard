@@ -18,7 +18,9 @@ Dashboard interactivo desarrollado con React, TypeScript, Vite, Material UI y Re
   - `MonthlyDemandChart.tsx`: comparación mensual de publicaciones entre 2025 y 2026.
   - `CategoryChart.tsx`: gráfico circular y leyenda de las 6 categorías con más registros.
   - `JobsTable.tsx`: tabla paginada de ofertas con puesto, experiencia, ubicación, modalidad y salario anual.
-- `src/App.tsx`: gestión de estado con `useState`, carga inicial con `useEffect`, memoización con `useMemo` y coordinación por `props`.
+- `src/services/firebase.ts`: inicialización del SDK de Firebase y consulta asíncrona a Realtime Database (`fetchJobsFromFirebase`).
+- `src/App.tsx`: gestión de estado con `useState`, consulta inicial a Firebase con `useEffect`, memoización con `useMemo` y coordinación por `props`.
+- `.env.example`: plantilla de variables de entorno `VITE_FIREBASE_*` para configurar `.env.local`.
 
 ## Sprint 1 – Transformación CSV a JSON
 
@@ -56,3 +58,26 @@ npm run build
 - Prima salarial promedio por IA: **10,9%**
 - Índice de demanda promedio: **87,5/100**
 - Roles especializados LLM (`is_llm_role = 1`): **21,8%**
+
+## Sprint 3 – Conexión de React con Firebase Realtime Database
+
+### Configuración de variables de entorno
+Copia `.env.example` a `.env.local` y completa las credenciales de tu proyecto en Firebase:
+
+```bash
+cp .env.example .env.local
+```
+
+Variables requeridas:
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_DATABASE_URL`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_STORAGE_BUCKET`
+- `VITE_FIREBASE_MESSAGING_SENDER_ID`
+- `VITE_FIREBASE_APP_ID`
+
+### Flujo de consulta
+1. El dataset JSON del Sprint 1 se importa en la raíz (`/`) de **Firebase Realtime Database**.
+2. `src/services/firebase.ts` centraliza la inicialización de Firebase (`initializeApp`, `getDatabase`) y expone `fetchJobsFromFirebase`.
+3. `src/App.tsx` ejecuta `fetchJobsFromFirebase('/')` dentro de `useEffect` al montar el componente y administra los registros, el estado de carga y los posibles errores mediante `useState`.
